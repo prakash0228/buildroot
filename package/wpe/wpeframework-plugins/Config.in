@@ -403,6 +403,12 @@ config BR2_PACKAGE_WPEFRAMEWORK_NETWORKCONTROL
       Control the IP adressing of the interfaces in the system from
       WPEFramework (static IPv4/IPv6 or dhcp IPv4)
 
+config BR2_PACKAGE_WPEFRAMEWORK_OUTOFPROCESS
+    select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
+    bool "OutOfProcessPlugin"
+    help
+      OutOfProcess Plugin
+
 config BR2_PACKAGE_WPEFRAMEWORK_PACKAGER
     select BR2_PACKAGE_WPEFRAMEWORK_PLUGINS
     select BR2_PACKAGE_OPKG
