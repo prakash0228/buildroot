@@ -39,6 +39,9 @@ mv "${ROOTFS_DIR}/usr/lib/gstreamer-1.0/libbrcmgstutil.so" "${ROOTFS_DIR}/usr/li
 # WPEFramework launcher
 cp -pf "${BOARD_DIR}/wpeframework.sh" "${ROOTFS_DIR}"
 
+# DRMPlayer setup
+cp -pf "${BOARD_DIR}/setup_drmplayer.sh" "${ROOTFS_DIR}"
+
 # WebServer path
 mkdir -p "${ROOTFS_DIR}/www"
 

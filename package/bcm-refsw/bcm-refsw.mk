@@ -38,10 +38,11 @@ else ifeq ($(BR2_PACKAGE_BCM_REFSW_18_2),y)
 BCM_REFSW_VERSION = 18.2
 else ifeq ($(BR2_PACKAGE_BCM_REFSW_19_1),y)
 BCM_REFSW_VERSION = 19.1
+else ifeq ($(BR2_PACKAGE_BCM_REFSW_19_1_1),y)
+BCM_REFSW_VERSION = 19.1.1
 else
 BCM_REFSW_VERSION = 16.2-7
 endif
-
 BCM_REFSW_SITE = git@github.com:Metrological/bcm-refsw.git
 BCM_REFSW_SITE_METHOD = git
 
@@ -159,6 +160,17 @@ ifeq ($(BR2_PACKAGE_WESTEROS),y)
 	include package/bcm-refsw/wayland-egl.inc
 endif
 
+# DIF build and install targets
+ifeq ($(BR2_PACKAGE_BCM_REFSW_DIF),y)
+	include package/bcm-refsw/playback_dif.inc
+	BCM_REFSW_POST_PATCH_HOOKS += BCM_REFSW_DIF_PATCHES
+endif
+
+# Build playback-dif examples as shared libraries
+ifeq ($(BR2_PACKAGE_DRMPLAYER_NEXUS),y)
+	BCM_REFSW_POST_PATCH_HOOKS += BCM_REFSW_PLAYBACK_DIF_SHARED_LIBRARY
+endif
+
 define BCM_REFSW_BUILD_CMDS
 	$(BCM_REFSW_BUILD_NEXUS)
 	$(BCM_REFSW_BUILD_NXSERVER)
@@ -176,6 +188,8 @@ define BCM_REFSW_BUILD_CMDS
         $(BCM_REFSW_BUILD_DRMROOTFS)
         $(BCM_REFSW_BUILD_PRDYHTTP)
         $(BCM_REFSW_BUILD_SAGE_MANUFACTURING)
+	$(BCM_REFSW_BUILD_DIF)
+	$(BCM_REFSW_BUILD_PLAYBACK_DIF)
 endef
 
 define BCM_REFSW_INSTALL_STAGING_CMDS
@@ -191,9 +205,13 @@ define BCM_REFSW_INSTALL_STAGING_CMDS
         $(call BCM_REFSW_INSTALL_PLAYREADY30_DEV,   $(STAGING_DIR))
         $(call BCM_REFSW_INSTALL_DRMROOTFS_DEV,     $(STAGING_DIR))
         $(call BCM_REFSW_INSTALL_PRDYHTTP_DEV,      $(STAGING_DIR))
+    $(call BCM_REFSW_DIF_INSTALL,               $(STAGING_DIR))
+    $(call BCM_REFSW_PLAYBACK_DIF_INSTALL,      $(STAGING_DIR))
+    $(call BCM_REFSW_INSTALL_DIF_HEADERS,		$(STAGING_DIR))
 endef
 
 define BCM_REFSW_INSTALL_TARGET_CMDS
+
 	$(call BCM_REFSW_INSTALL_NEXUS,             $(TARGET_DIR))
 	$(call BCM_REFSW_INSTALL_GRAPHICS,          $(TARGET_DIR))
 	$(call BCM_REFSW_INSTALL_NXSERVER,          $(TARGET_DIR))
@@ -206,7 +224,8 @@ define BCM_REFSW_INSTALL_TARGET_CMDS
         $(call BCM_REFSW_INSTALL_DRMROOTFS,         $(TARGET_DIR))
         $(call BCM_REFSW_INSTALL_PRDYHTTP,          $(TARGET_DIR))
         $(call BCM_REFSW_INSTALL_SAGE_BINS,         $(TARGET_DIR))
-
+    $(call BCM_REFSW_DIF_INSTALL,      	    	$(TARGET_DIR))
+    $(call BCM_REFSW_PLAYBACK_DIF_INSTALL,	    $(TARGET_DIR))
 endef
 
 $(eval $(generic-package))

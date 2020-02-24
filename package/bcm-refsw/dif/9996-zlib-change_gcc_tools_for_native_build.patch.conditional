@@ -1,0 +1,21 @@
+--- a/BSEAV/opensource/zlib/Makefile
++++ b/BSEAV/opensource/zlib/Makefile
+@@ -96,6 +96,8 @@ ${ZLIB_LIB_FOLDER}/libz_native.a: ${ZLIB_TAR_PATH}/Makefile
+ 	@echo "================ Configuring ZLIB for gcc ===================="
+ 	@cd ${ZLIB_TAR_PATH}; \
+ 	CC="gcc" \
++	AR="ar" \
++	RANLIB="ranlib" \
+ 	CFLAGS="${ZLIB_CONFIG_CFLAGS}" \
+ 	./configure \
+ 	--prefix=${ZLIB_INSTALL_PREFIX} \
+@@ -112,6 +114,8 @@ ${ZLIB_LIB_FOLDER}/libz.a: ${ZLIB_TAR_PATH}/Makefile
+ 	@echo "================ Configuring ZLIB for ${CC} ===================="
+ 	@cd ${ZLIB_TAR_PATH}; \
+ 	CC="${CC}" \
++	AR="${AR}" \
++	RANLIB="${RANLIB}" \
+ 	CFLAGS="${ZLIB_CONFIG_CFLAGS}" \
+ 	./configure \
+ 	--prefix=${ZLIB_INSTALL_PREFIX} \
+

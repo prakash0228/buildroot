@@ -1,0 +1,13 @@
+diff --git a/BSEAV/lib/security/dif/Makefile b/BSEAV/lib/security/dif/Makefile
+index 78060df66..3d6c0eb16 100644
+--- a/BSEAV/lib/security/dif/Makefile
++++ b/BSEAV/lib/security/dif/Makefile
+@@ -253,7 +253,7 @@ prep_wvcdm: prep_security
+ ifeq ($(WIDEVINE_SUPPORT),y)
+ 	$(Q_)echo [DIF..... building Widevine];
+ 	$(Q_)echo [WIDEVINE_CENC_DIR.....] $(WIDEVINE_CENC_DIR);
+-	$(Q_)$(MAKE) -C $(WIDEVINE_CENC_DIR) install > $(LOG_REDIRECT_FILE)
++	$(Q_)$(MAKE) -j$(NJOBS) -C $(WIDEVINE_CENC_DIR) install > $(LOG_REDIRECT_FILE)
+ endif
+ 
+ prep_nexus:

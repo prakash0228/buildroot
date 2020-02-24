@@ -1,0 +1,36 @@
+diff --git a/BSEAV/opensource/protobuf/Makefile b/BSEAV/opensource/protobuf/Makefile
+index d7f273015..8019ea814 100644
+--- a/BSEAV/opensource/protobuf/Makefile
++++ b/BSEAV/opensource/protobuf/Makefile
+@@ -89,7 +89,11 @@ ifneq ($(PROTOBUF_VER), $(PROTOC_VER))
+ 	@if [ ! -e "${PROTOBUF_TAR_PATH}/${PROTOBUF_NAME}/Makefile" ]; then \
+ 		echo "================ Configure PROTOBUF"; \
+ 		cd ${PROTOBUF_TAR_PATH}/${PROTOBUF_NAME}; \
+-                CXXFLAGS="${PROTOBUF_CONFIG_CXXFLAGS}" \
++		CXXFLAGS="${PROTOBUF_CONFIG_CXXFLAGS}" \
++		CC="gcc" \
++		AR="ar" \
++		CXX="g++" \
++		RANLIB="ranlib" \
+ 		./configure \
+ 		--prefix=${PROTOBUF_TAR_PATH}/${PROTOBUF_NAME}/host \
+ 		--disable-shared; \
+@@ -105,7 +109,7 @@ ifneq ($(PROTOBUF_VER), $(PROTOC_VER))
+ 	@echo "================ protoc for build server was built"
+ else
+ 	@echo "================ Use protoc installed in build server"
+-endif # ifneq ($(PROTOBUF_VER), $(PROTOC_VER))
++endif 
+ 
+ ${PROTOBUF_SOURCE_PATH}/.compiled : | build_protoc
+ 	@echo "================ Configuring PROTOBUF"
+@@ -113,6 +117,9 @@ ${PROTOBUF_SOURCE_PATH}/.compiled : | build_protoc
+ 		echo "================ Configure PROTOBUF"; \
+ 		cd ${PROTOBUF_TAR_PATH}/${PROTOBUF_NAME}; \
+ 		CC=$(strip $(subst $(B_PROTOBUF_TOOLCHAIN_ARCH)-,,$(CC))) \
++		CXX="${CXX}" \
++		AR="${AR}" \
++		RANLIB="${RANLIB}" \
+ 		CXXFLAGS="${PROTOBUF_CONFIG_CXXFLAGS}" \
+ 		./configure \
+ 		--prefix=${PROTOBUF_TAR_PATH}/${PROTOBUF_NAME}/${NEXUS_PLATFORM}${LOWER_BCHP_VER} \

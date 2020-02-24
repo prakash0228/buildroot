@@ -68,6 +68,10 @@ choice
 
     config BR2_PACKAGE_BCM_REFSW_19_1
         bool "bcm-refsw 19.1"
+	
+	config BR2_PACKAGE_BCM_REFSW_19_1_1
+		bool "bcm-refsw 19.1.1"
+
 endchoice
 
 if BR2_PACKAGE_BCM_REFSW_CUSTOM_VERSION
@@ -274,4 +278,20 @@ config BR2_PACKAGE_BCM_REFSW_KERNELSPACE_HEADERS
 	default n
 	help
 	  Installs kernelspace nexus headers used to build some kernelmodules like greenpeak.
+
+if BR2_PACKAGE_BCM_REFSW
+	config BR2_PACKAGE_BCM_REFSW_DIF
+       	bool "DIF - DRM Integration Framework"
+		depends on BR2_PACKAGE_BCM_REFSW_19_1_1
+		help
+			DRM Integration Framework, API for DRM playback applications using SAGE or SVP.
+	
+	config BR2_PACKAGE_BCM_REFSW_PLAYBACK_DIF
+		bool "Build the playback_dif examples"
+		depends on BR2_PACKAGE_BCM_REFSW_DIF
+		help
+			playback_dif is a test BCM SVP player, used as an implementation of IDRMPlayer, within the drmplayer package.
+
+endif
+
 endif

@@ -1,0 +1,26 @@
+config BR2_PACKAGE_DRMPLAYER
+bool "drmplayer"
+help 
+    Standalone SVP test program.
+
+if BR2_PACKAGE_DRMPLAYER
+
+
+choice
+	prompt "DRMPlayer target platform family."
+	default BR2_PACKAGE_DRMPLAYER_NEXUS
+	help
+	  Choose the target platform family.
+
+	config BR2_PACKAGE_DRMPLAYER_NEXUS
+		bool "Nexus"
+		depends on BR2_PACKAGE_BCM_REFSW
+		depends on BR2_PACKAGE_BCM_REFSW_19_1_1
+		depends on BR2_PACKAGE_BCM_REFSW_DIF
+		depends on BR2_PACKAGE_BCM_REFSW_PLAYBACK_DIF
+		help
+		  Nexus platform family.
+
+endchoice
+
+endif

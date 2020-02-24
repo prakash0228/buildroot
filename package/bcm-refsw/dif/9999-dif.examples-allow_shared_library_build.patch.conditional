@@ -1,0 +1,118 @@
+diff --git a/BSEAV/lib/security/dif/examples/Makefile b/BSEAV/lib/security/dif/examples/Makefile
+index f4502a7a3..dd78aa1cb 100644
+--- a/BSEAV/lib/security/dif/examples/Makefile
++++ b/BSEAV/lib/security/dif/examples/Makefile
+@@ -193,12 +193,24 @@ $(OUT_ROOT_DIR)/%.o: %.cpp
+ 	@echo [Compiling $<]
+ 	@${CXX} -c $(CXXFLAGS) $(INCLUDES) $< -o $@
+ 
++ifeq ($(BUILD_SHARED),y)
++
++ifeq ($(NXCLIENT_SUPPORT),y)
++all: $(target)_dif.so $(target)_dif_single.so
++else
++all: $(target)_dif.so
++endif
++
++else
++
+ ifeq ($(NXCLIENT_SUPPORT),y)
+ all: $(target)_dif $(target)_dif_single
+ else
+ all: $(target)_dif
+ endif
+ 
++endif
++
+ prep_dif:
+ 	@echo [..... prep_dif target ]
+ 	@if [ ! -d ${B_REFSW_OBJ_ROOT}/BSEAV/lib/security/dif/$(DIF_LIBDIR) ]; then \
+@@ -247,6 +259,19 @@ clean:
+ 	@echo "Cleaning ..."
+ 	@rm -rf $(OUT_ROOT_DIR)
+ 
++
++$(target)_dif.so: $(TARGET_OBJS) prep_dif
++	@echo "Building lib$@ ..."
++	@mkdir -p $(OUT_ROOT_DIR)/final/
++	$(CXX) $(TARGET_OBJS) $(LDFLAGS) -o $(OUT_ROOT_DIR)/final/lib$@ -fPIC -shared
++	@install -m 0755 $(OUT_ROOT_DIR)/final/lib$@ $(NEXUS_BIN_DIR)
++
++$(target)_dif_single.so: $(TARGET_SINGLE_OBJS) prep_dif
++	@echo "Building lib$@ ..."
++	@mkdir -p $(OUT_ROOT_DIR)/final/
++	$(CXX) $(TARGET_SINGLE_OBJS) $(LDFLAGS) -o $(OUT_ROOT_DIR)/final/lib$@ -fPIC -shared
++	@install -m 0755 $(OUT_ROOT_DIR)/final/lib$@ $(NEXUS_BIN_DIR)
++
+ $(target)_dif: $(TARGET_OBJS) prep_dif
+ 	@echo "Building $@ ..."
+ 	@mkdir -p $(OUT_ROOT_DIR)/final/
+diff --git a/BSEAV/lib/security/dif/examples/playback/playback.cpp b/BSEAV/lib/security/dif/examples/playback/playback.cpp
+index a056debfa..1a273adc3 100644
+--- a/BSEAV/lib/security/dif/examples/playback/playback.cpp
++++ b/BSEAV/lib/security/dif/examples/playback/playback.cpp
+@@ -51,6 +51,8 @@
+ #include "nexus_component_output.h"
+ #include "nexus_video_adj.h"
+ 
++#include "playback_dif.h"
++
+ #include <unistd.h>
+ #include <stdio.h>
+ #include <string.h>
+@@ -1681,7 +1683,7 @@ static void print_usage(char* command)
+     LOGE(("        -noAudio   Play only video"));
+ }
+ 
+-int main(int argc, char* argv[])
++int start(int argc, char* argv[])
+ {
+     signal(SIGINT, sigHandler);
+     signal(SIGTERM, sigHandler);
+@@ -1910,3 +1912,8 @@ int main(int argc, char* argv[])
+ 
+     exit(EXIT_SUCCESS);
+ }
++
++int main(int argc, char* argv[])
++{
++    return start(argc, argv);
++}
+diff --git a/BSEAV/lib/security/dif/examples/playback/playback_dif.h b/BSEAV/lib/security/dif/examples/playback/playback_dif.h
+new file mode 100644
+index 000000000..7a223ee04
+--- /dev/null
++++ b/BSEAV/lib/security/dif/examples/playback/playback_dif.h
+@@ -0,0 +1 @@
++int start(int argc, char* argv[]);
+diff --git a/BSEAV/lib/security/dif/examples/playback/playback_single.cpp b/BSEAV/lib/security/dif/examples/playback/playback_single.cpp
+index 2ac60db40..839153452 100644
+--- a/BSEAV/lib/security/dif/examples/playback/playback_single.cpp
++++ b/BSEAV/lib/security/dif/examples/playback/playback_single.cpp
+@@ -55,6 +55,8 @@
+ #include "namevalue.h"
+ #include "nexus_hdmi_output_hdcp.h"
+ 
++#include "playback_dif.h"
++
+ #include <unistd.h>
+ #include <stdio.h>
+ #include <string.h>
+@@ -1947,7 +1949,7 @@ static void print_usage(char* command)
+     LOGE(("        -display_format <format> Specify display format"));
+ }
+ 
+-int main(int argc, char* argv[])
++int start(int argc, char* argv[])
+ {
+     signal(SIGINT, sigHandler);
+     signal(SIGTERM, sigHandler);
+@@ -2223,3 +2225,8 @@ int main(int argc, char* argv[])
+ 
+     exit(EXIT_SUCCESS);
+ }
++
++int main(int argc, char* argv[])
++{
++    start(argc, argv);
++}
