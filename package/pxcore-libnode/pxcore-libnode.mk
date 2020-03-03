@@ -48,7 +48,7 @@ endif
 endif
 
 PXCORE_LIBNODE_VER = 10.15.3
-PXCORE_LIBNODE_LIB_VER = 58
+PXCORE_LIBNODE_LIB_VER = 64
 PXCORE_LIBNODE_GYP_PATH = tools/gyp
 PXCORE_LIBNODE_DIRECTORY = libnode-v$(PXCORE_LIBNODE_VER)
 PXCORE_LIBNODE_PATH = examples/pxScene2d/external
@@ -57,6 +57,8 @@ define PXCORE_LIBNODE_PATCHING
     echo "Test" ; \
     patch -p1 <$(PXCORE_LIBNODE_PATH)/node-v$(PXCORE_LIBNODE_VER)_mods.patch; \
     patch -p1 <$(PXCORE_LIBNODE_PATH)/node-v$(PXCORE_LIBNODE_VER)_qemu_wrapper.patch; \
+    patch -p1 <$(PXCORE_LIBNODE_PATH)/openssl_1.0.2_compatibility.patch; \
+    sed -i "s:KERNEL_VERSION:$(BR2_TOOLCHAIN_HEADERS_AT_LEAST):g" $(@D)/$(PXCORE_LIBNODE_PATH)/$(PXCORE_LIBNODE_DIRECTORY)/v8-qemu-wrapper.sh; \
     sed -i "s:STAGING:$(STAGING_DIR):g" $(@D)/$(PXCORE_LIBNODE_PATH)/$(PXCORE_LIBNODE_DIRECTORY)/v8-qemu-wrapper.sh; \
     sed -i "s:ARCH:$(PXCORE_LIBNODE_CPU):g" $(@D)/$(PXCORE_LIBNODE_PATH)/$(PXCORE_LIBNODE_DIRECTORY)/v8-qemu-wrapper.sh; \
     chmod +x $(@D)/$(PXCORE_LIBNODE_PATH)/$(PXCORE_LIBNODE_DIRECTORY)/v8-qemu-wrapper.sh;
@@ -65,6 +67,7 @@ endef
 define PXCORE_LIBNODE_COPY_PATCH
     cp package/pxcore-libnode/node-v$(PXCORE_LIBNODE_VER)_mods.patch.file $(@D)/$(PXCORE_LIBNODE_PATH)/node-v$(PXCORE_LIBNODE_VER)_mods.patch; \
     cp package/pxcore-libnode/node-v$(PXCORE_LIBNODE_VER)_qemu_wrapper.patch.file $(@D)/$(PXCORE_LIBNODE_PATH)/node-v$(PXCORE_LIBNODE_VER)_qemu_wrapper.patch; \
+    cp package/pxcore-libnode/openssl_1.0.2_compatibility.patch.file $(@D)/$(PXCORE_LIBNODE_PATH)/openssl_1.0.2_compatibility.patch \
     cp package/pxcore-libnode/v8-qemu-wrapper.sh $(@D)/$(PXCORE_LIBNODE_PATH)/$(PXCORE_LIBNODE_DIRECTORY)/;
 endef
 
