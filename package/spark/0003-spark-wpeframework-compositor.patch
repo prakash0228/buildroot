@@ -811,10 +811,10 @@ index 000000000..422bdcf5a
 +}
 diff --git a/src/wpeframework/pxWPECompositor.h b/src/wpeframework/pxWPECompositor.h
 new file mode 100644
-index 000000000..5616ed598
+index 000000000..b523911c9
 --- /dev/null
 +++ b/src/wpeframework/pxWPECompositor.h
-@@ -0,0 +1,293 @@
+@@ -0,0 +1,295 @@
 +/*
 + * Copyright (C) 2019 Metrological
 + * All rights reserved.
@@ -879,6 +879,7 @@ index 000000000..5616ed598
 +         virtual uint32_t Release() const
 +         {
 +             Core::InterlockedDecrement(_refCount);
++             return _refCount;
 +         }
 +         virtual void KeyMap(const char* /*information*/, const uint16_t /*size*/) {}
 +         virtual void Key(const uint32_t /*key*/,
@@ -907,7 +908,8 @@ index 000000000..5616ed598
 +    }
 +    ~Display()
 +    {
-+
++        Stop();
++        close(_display->FileDescriptor());
 +        Wait(Thread::BLOCKED | Thread::STOPPED, Core::infinite);
 +
 +        if (_graphicsSurface != nullptr) {
@@ -974,7 +976,7 @@ index 000000000..5616ed598
 +            time_t epoch_time = (tv.tv_sec * 1000) + (tv.tv_usec/1000);
 +
 +            char buffer[128];
-+            snprintf(buffer, sizeof(buffer), "Netflix_%llu", epoch_time);
++            snprintf(buffer, sizeof(buffer), "Spark_%llu", epoch_time);
 +            result = buffer;
 +        } else {
 +             const char* delimiter = nullptr;
