@@ -1,0 +1,24 @@
+From e6388842514cd1fa21d6968f70cebbe95f5205fc Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <bram.oosterhuis.nl@gmail.com>
+Date: Thu, 5 Mar 2020 13:55:03 +0100
+Subject: [PATCH] [Netflix] Add exit notification
+
+---
+ Source/interfaces/INetflix.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Source/interfaces/INetflix.h b/Source/interfaces/INetflix.h
+index 00b39ea..3774414 100644
+--- a/Source/interfaces/INetflix.h
++++ b/Source/interfaces/INetflix.h
+@@ -43,6 +43,7 @@ namespace Exchange {
+ 
+             // Signal changes on the subscribed namespace..
+             virtual void StateChange(const INetflix::state state) = 0;
++            virtual void Exit(const uint32_t exitCode) = 0;
+         };
+ 
+         virtual ~INetflix() {}
+-- 
+2.20.1
+
