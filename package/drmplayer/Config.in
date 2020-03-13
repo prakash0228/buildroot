@@ -20,6 +20,11 @@ choice
 		depends on BR2_PACKAGE_BCM_REFSW_PLAYBACK_DIF
 		help
 		  Nexus platform family.
+		
+	config BR2_PACKAGE_DRMPLAYER_GENERIC
+		bool "Generic"
+		help
+		  Generic drmplayer implementation.
 
 endchoice
 
