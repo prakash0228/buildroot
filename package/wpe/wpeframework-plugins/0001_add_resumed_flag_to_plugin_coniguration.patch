@@ -1,0 +1,21 @@
+diff --git a/Cobalt/Cobalt.config b/Cobalt/Cobalt.config
+index 2b47424..4ca20e8 100644
+--- a/Cobalt/Cobalt.config
++++ b/Cobalt/Cobalt.config
+@@ -1,4 +1,5 @@
+ set (autostart ${PLUGIN_COBALT_AUTOSTART})
++set (resumed false)
+ set (preconditions Platform Graphics)
+ 
+ map()
+diff --git a/WebKitBrowser/WebKitBrowser.config b/WebKitBrowser/WebKitBrowser.config
+index c1fae45..abb4125 100644
+--- a/WebKitBrowser/WebKitBrowser.config
++++ b/WebKitBrowser/WebKitBrowser.config
+@@ -1,5 +1,5 @@
+ set (autostart ${PLUGIN_WEBKITBROWSER_AUTOSTART})
+-set (resumed true)
++set (resumed false)
+ 
+ if(PLUGIN_WEBSERVER)
+ set (preconditions Graphics WebSource)

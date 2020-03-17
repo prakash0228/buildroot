@@ -1,0 +1,15 @@
+diff --git a/cmake/project.cmake.in b/cmake/project.cmake.in
+index c5ccff9..70a065c 100644
+--- a/cmake/project.cmake.in
++++ b/cmake/project.cmake.in
+@@ -98,6 +98,10 @@ macro(write_config)
+                 map_append(${plugin_config} autostart ${autostart})
+             endif()
+ 
++            if (NOT ${resumed} STREQUAL "")
++                map_append(${plugin_config} resumed ${resumed})
++            endif()
++
+             if (NOT ${configuration} STREQUAL "")
+                 map_append(${plugin_config} configuration ${configuration})
+             endif()

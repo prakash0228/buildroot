@@ -1,0 +1,36 @@
+diff --git a/Source/WPEFramework/GenericConfig.cmake b/Source/WPEFramework/GenericConfig.cmake
+index 23952bb..32e4dd0 100644
+--- a/Source/WPEFramework/GenericConfig.cmake
++++ b/Source/WPEFramework/GenericConfig.cmake
+@@ -70,7 +70,6 @@ ans(PLUGIN_CONTROLLER)
+ 
+ map()
+     kv(subsystems)
+-    key(resumes)
+ end()
+ ans(PLUGIN_CONTROLLER_CONFIGURATION)
+ 
+@@ -83,23 +82,6 @@ if (EXTERN_EVENT_LIST_LENGTH GREATER 0)
+     endforeach(SUBSYSTEM)
+ endif()
+ 
+-if (PLUGIN_WEBSERVER OR PLUGIN_WEBKITBROWSER OR PLUGIN_ESPIAL)
+-    #Add ___array___ to the key to force json array creation.
+-    map_append(${PLUGIN_CONTROLLER_CONFIGURATION} resumes ___array___)
+-
+-    if (PLUGIN_WEBKITBROWSER)
+-        map_append(${PLUGIN_CONTROLLER_CONFIGURATION} resumes WebKitBrowser)
+-    endif (PLUGIN_WEBKITBROWSER)
+-
+-    if (PLUGIN_ESPIAL)
+-        map_append(${PLUGIN_CONTROLLER_CONFIGURATION} resumes EspialBrowser)
+-    endif (PLUGIN_ESPIAL)
+-
+-    if (PLUGIN_WEBSERVER)
+-        map_append(${PLUGIN_CONTROLLER_CONFIGURATION} resumes WebServer)
+-    endif (PLUGIN_WEBSERVER)
+-endif()
+-
+ map()
+     kv(category "Startup")
+     kv(module "SysLog")
