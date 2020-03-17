@@ -1,0 +1,13 @@
+diff --git a/Cobalt/CobaltImplementation.cpp b/Cobalt/CobaltImplementation.cpp
+index 084307b..92c5e7e 100644
+--- a/Cobalt/CobaltImplementation.cpp
++++ b/Cobalt/CobaltImplementation.cpp
+@@ -205,7 +205,7 @@ public:
+ 
+     virtual uint32_t Configure(PluginHost::IShell *service) {
+         uint32_t result = _window.Configure(service);
+-        _state = PluginHost::IStateControl::RESUMED;
++        _state = PluginHost::IStateControl::SUSPENDED;
+         return (result);
+     }
+ 
