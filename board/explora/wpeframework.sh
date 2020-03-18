@@ -53,6 +53,7 @@ case "$1" in
 		ln -s $SOURCE/usr/lib/gio $DESTINATION/lib/gio
 		ln -s $SOURCE/root/Netflix $DESTINATION/root/Netflix
 		ln -s $SOURCE/root/OCDM $DESTINATION/root/OCDM
+                ln -s /usr/bin/sage/sage_ta_widevine.bin $SOURCE/sage_ta_widevine.bin
 	fi
 
 	export DRMSTORE=/tmp/drmstore
